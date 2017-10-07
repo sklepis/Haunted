@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.HauntedSouls;
 
 /**
- * Created by dovydas on 10/6/2017.
+ * Created by dovydas on 10/6/2017,.
  */
 
 public class MenuState extends State {
