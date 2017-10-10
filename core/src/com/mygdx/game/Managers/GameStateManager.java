@@ -1,11 +1,13 @@
-package com.mygdx.game.States;
+package com.mygdx.game.Managers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.States.State;
 
 import java.util.Stack;
 
 /**
  * Created by dovydas on 10/6/2017.
+ * This class manages States, uses stack for proper States changing.
  */
 
 public class GameStateManager {

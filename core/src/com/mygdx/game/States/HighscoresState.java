@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.HauntedSouls;
 import com.mygdx.game.Objects.ScaleElement;
@@ -24,27 +23,16 @@ public class HighscoresState extends State {
     private Texture backButton;
     private TextureRegion  backButtonRegion;
     private GlyphLayout layout;
-   // public static BitmapFont gameFont;
 
     private HashMap<String, ScaleElement> Sizes = new HashMap<String, ScaleElement>();
 
-    public HighscoresState(GameStateManager gsm) {
+    public HighscoresState(com.mygdx.game.Managers.GameStateManager gsm) {
         super(gsm);
 
-        topScores = new int[5];
-
-        backButton = new Texture("backButton.png");
-        backButtonRegion = new TextureRegion(backButton);
-
-
-        HauntedSouls.gameFont = new BitmapFont(Gdx.files.internal("fonts/gameFont.fnt"));
-
-
-        Sizes.put("Back", new ScaleElement(backButtonRegion, MenuState.scale_w, MenuState.scale_h, (float) 1.2, (float) 8));
-        Sizes.put("Highscores", new ScaleElement(HauntedSouls.gameFont, MenuState.scale_w, MenuState.scale_h, calculateFontWidth("Highscores"), calculateFontHeight("Highscores"), (float) 1.1));
-
-        Sizes.get("Back").calculateCustomPosition();
-        Sizes.get("Highscores").calculateFontPosition();
+       // topScores = new int[5];
+        setTextures();
+        setFont();
+        setHashMap();
     }
 
     @Override
@@ -55,11 +43,9 @@ public class HighscoresState extends State {
             Vector3 touchedCoordinates = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchedCoordinates);
 
-            Rectangle backButtonBounds = MenuState.setRectangle(Sizes, "Back");
-
-
-            if(backButtonBounds.contains(touchedCoordinates.x,touchedCoordinates.y)) {
+            if(Sizes.get("Back").getRectangle().contains(touchedCoordinates.x,touchedCoordinates.y)) {
                 gsm.set(new MenuState(gsm));
+                dispose();
             }
 
         }
@@ -67,43 +53,72 @@ public class HighscoresState extends State {
     }
 
     @Override
-    public void update(float dt) {
+    public void update(float dt)
+    {
         handleInput();
     }
 
     @Override
-    public void render(SpriteBatch sb) {
+    public void render(SpriteBatch sb)
+    {
 
         camera.update();
         sb.setProjectionMatrix(camera.combined);
 
         sb.begin();
-        sb.draw(backButton, Sizes.get("Back").Position_X, Sizes.get("Back").Position_Y, Sizes.get("Back").Scaled_Width, Sizes.get("Back").Scaled_Height);
+        sb.draw(backButton, Sizes.get("Back").position_X, Sizes.get("Back").position_Y, Sizes.get("Back").scaled_Width, Sizes.get("Back").scaled_Height);
         HauntedSouls.gameFont.getData().setScale(MenuState.scale_w, MenuState.scale_h);
-        HauntedSouls.gameFont.draw(sb, "Highscores", Sizes.get("Highscores").Position_X, Sizes.get("Highscores").Position_Y);
+        HauntedSouls.gameFont.draw(sb, "Highscores", Sizes.get("Highscores").position_X, Sizes.get("Highscores").position_Y);
         sb.end();
 
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         backButton.dispose();
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
         viewport.update(width, height);
     }
 
-    public float calculateFontWidth(String text) {
+    /* Calculates written font resolution (the only one possible way is GlyphLayout) */
+
+    public float calculateFontWidth(String text)
+    {
         layout = new GlyphLayout();
         layout.setText(HauntedSouls.gameFont, text);
         return layout.width;
     }
 
-    public float calculateFontHeight(String text) {
+    public float calculateFontHeight(String text)
+    {
         layout = new GlyphLayout();
         layout.setText(HauntedSouls.gameFont, text);
         return layout.height;
     }
+
+    private  void setHashMap ()
+    {
+        Sizes.put("Back", new ScaleElement(backButtonRegion, MenuState.scale_w, MenuState.scale_h, (float) 1.2, (float) 8));
+        Sizes.put("Highscores", new ScaleElement(HauntedSouls.gameFont, MenuState.scale_w, MenuState.scale_h, calculateFontWidth("Highscores"), calculateFontHeight("Highscores"), (float) 1.1));
+
+        Sizes.get("Back").calculateCustomPosition();
+        Sizes.get("Highscores").calculateFontPosition();
+    }
+
+    public void setFont()
+    {
+        HauntedSouls.gameFont = new BitmapFont(Gdx.files.internal("fonts/gameFont.fnt"));
+    }
+
+    public void setTextures()
+    {
+        backButton = new Texture("backButton.png");
+        backButtonRegion = new TextureRegion(backButton);
+    }
+
 }

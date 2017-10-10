@@ -9,6 +9,7 @@ import com.mygdx.game.HauntedSouls;
 
 /**
  * Created by dovydas on 10/6/2017.
+ * This class is template for every State used in game.
  */
 
 public abstract class State
@@ -16,9 +17,9 @@ public abstract class State
     OrthographicCamera camera;
     Viewport viewport;
     protected Vector3 mouse;
-    GameStateManager gsm;
+    com.mygdx.game.Managers.GameStateManager gsm;
 
-    State(GameStateManager gsm)
+    State(com.mygdx.game.Managers.GameStateManager gsm)
     {
         this.gsm = gsm;
         camera = new OrthographicCamera();

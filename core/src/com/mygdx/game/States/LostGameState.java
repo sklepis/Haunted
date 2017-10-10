@@ -1,18 +1,14 @@
 package com.mygdx.game.States;
 
-
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Created by dovydas on 10/7/2017.
+ * Created by dovydas on 10/11/2017.
  */
 
-public class PlayState extends State {
+public class LostGameState extends State {
 
-    private Texture ghosts;
-
-    public PlayState(com.mygdx.game.Managers.GameStateManager gsm) {
+    public LostGameState(com.mygdx.game.Managers.GameStateManager gsm) {
         super(gsm);
     }
 
@@ -23,13 +19,11 @@ public class PlayState extends State {
 
     @Override
     public void update(float dt) {
-        handleInput();
+
     }
 
     @Override
     public void render(SpriteBatch sb) {
-       // sb.begin();
-       // sb.end();
 
     }
 
