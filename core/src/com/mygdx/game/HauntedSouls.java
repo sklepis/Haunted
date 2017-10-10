@@ -17,14 +17,13 @@ public class HauntedSouls extends Game {
 	public static BitmapFont gameFont;
 	private GameStateManager gsm;
 	private SpriteBatch batch;
-	
+
+
 	@Override
 	public void create () {
 
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
-
-
 
         gameFont = new BitmapFont(Gdx.files.internal("fonts/gameFont.fnt"));
 		batch = new SpriteBatch();
@@ -34,8 +33,12 @@ public class HauntedSouls extends Game {
 	}
 
 	@Override
-	public void render () {
+	public void resize(int width, int height) {
+		gsm.resize(width, height);
+	}
 
+	@Override
+	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	    gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(batch);
@@ -43,8 +46,6 @@ public class HauntedSouls extends Game {
 	
 	@Override
 	public void dispose () {
-
 		batch.dispose();
-
 	}
 }

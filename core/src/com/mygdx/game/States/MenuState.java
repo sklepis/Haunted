@@ -7,6 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.HauntedSouls;
+import com.mygdx.game.Objects.ScaleElement;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.badlogic.gdx.Gdx.app;
 
 /**
  * Created by dovydas on 10/6/2017,.
@@ -23,7 +29,16 @@ public class MenuState extends State {
     private TextureRegion optionsButton;
     private TextureRegion exitButton;
 
-    public MenuState(GameStateManager gsm) {
+    private HashMap<String, ScaleElement> Sizes = new HashMap<String, ScaleElement>();
+
+    public static float scale_w;
+    public static float scale_h;
+    public static float background_default_w;
+    public static float background_default_h;
+
+
+    public MenuState(GameStateManager gsm)
+    {
         super(gsm);
         startScreen = new Texture("startScreenItems.png");
         background = new TextureRegion(startScreen, 1, 1, 1920, 1080);
@@ -32,38 +47,33 @@ public class MenuState extends State {
         scoresButton = new TextureRegion(startScreen, 945, 1083, 627, 84);
         optionsButton = new TextureRegion(startScreen, 1204, 1169, 462, 80);
         exitButton = new TextureRegion(startScreen, 1204, 1251, 255, 73);
+
+        scale_w = ( (float)HauntedSouls.WIDTH / (float) background.getRegionWidth());
+        scale_h = ( (float) HauntedSouls.HEIGHT / (float) background.getRegionHeight());
+
+        Sizes.put("Header", new ScaleElement(gameHeader, scale_w, scale_h, (float) 1.3));
+        Sizes.put("Play", new ScaleElement(playButton, scale_w, scale_h, (float) 2));
+        Sizes.put("Scores", new ScaleElement(scoresButton, scale_w, scale_h, (float) 2.8));
+        Sizes.put("Options", new ScaleElement(optionsButton, scale_w, scale_h, 4));
+        Sizes.put("Exit", new ScaleElement(exitButton, scale_w, scale_h, 7));
+
+        for (Map.Entry<String, ScaleElement> se : Sizes.entrySet())
+        {
+            se.getValue().calculateCenteredPosition();
+        }
+
     }
 
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()){
-            Vector3 touchedCoordinates = new Vector3(Gdx.input.getX(), HauntedSouls.HEIGHT - Gdx.input.getY(), 0);
+            Vector3 touchedCoordinates = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchedCoordinates);
 
-
-            Rectangle playButtonBounds = new Rectangle(
-                                                       (HauntedSouls.WIDTH / 2 - playButton.getRegionWidth() / 2),
-                                                                                (float) (HauntedSouls.HEIGHT / 2),
-                                                                                      playButton.getRegionWidth(),
-                                                                                      playButton.getRegionHeight()
-            );
-            Rectangle scoresButtonBounds = new Rectangle(
-                                                         (HauntedSouls.WIDTH / 2 - scoresButton.getRegionWidth() / 2),
-                                                                                  (float) (HauntedSouls.HEIGHT / 2.8),
-                                                                                        scoresButton.getRegionWidth(),
-                                                                                        scoresButton.getRegionHeight()
-            );
-            Rectangle optionsButtonBounds = new Rectangle(
-                                                          (HauntedSouls.WIDTH / 2 - optionsButton.getRegionWidth() / 2),
-                                                                                    (float) (HauntedSouls.HEIGHT / 4.0),
-                                                                                         optionsButton.getRegionWidth(),
-                                                                                         optionsButton.getRegionHeight()
-            );
-            Rectangle exitButtonBounds = new Rectangle(
-                                                       (HauntedSouls.WIDTH / 2 - exitButton.getRegionWidth() / 2),
-                                                                              (float) (HauntedSouls.HEIGHT / 7.0),
-                                                                                      exitButton.getRegionWidth(),
-                                                                                      exitButton.getRegionHeight()
-            );
+            Rectangle playButtonBounds = setRectangle(Sizes, "Play");
+            Rectangle scoresButtonBounds = setRectangle(Sizes, "Scores");
+            Rectangle optionsButtonBounds = setRectangle(Sizes, "Options");
+            Rectangle exitButtonBounds = setRectangle(Sizes, "Exit");
 
             if(playButtonBounds.contains(touchedCoordinates.x,touchedCoordinates.y)) {
                  gsm.set(new PlayState(gsm));
@@ -71,39 +81,59 @@ public class MenuState extends State {
             }
             else if(scoresButtonBounds.contains(touchedCoordinates.x, touchedCoordinates.y)) {
                 gsm.set(new HighscoresState(gsm));
-                dispose();
+              //  dispose();
             }
             else if(optionsButtonBounds.contains(touchedCoordinates.x, touchedCoordinates.y)) {
                 // gsm.set(new PlayState(gsm));
                 // dispose();
             }
             else if(exitButtonBounds.contains(touchedCoordinates.x, touchedCoordinates.y))
-                Gdx.app.exit();
+                app.exit();
 
-           // console logging
-          // Gdx.app.log("Touchpoint", "Input occurred at x=" + Gdx.input.getX() + ", y=" +  Gdx.input.getY());
 
         }
     }
 
     @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+    }
+
+    @Override
     public void update(float dt) {
         handleInput();
+        camera.update();
 
 
     }
 
     @Override
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(camera.combined);
+
         sb.begin();
         sb.draw(background, 0, 0, HauntedSouls.WIDTH, HauntedSouls.HEIGHT);
-        sb.draw(gameHeader, (HauntedSouls.WIDTH / 2 - gameHeader.getRegionWidth() / 2), (float) (HauntedSouls.HEIGHT / 1.3));
-        sb.draw(playButton, (HauntedSouls.WIDTH / 2 - playButton.getRegionWidth() / 2), (float) (HauntedSouls.HEIGHT / 2));
-        sb.draw(scoresButton, (HauntedSouls.WIDTH / 2 - scoresButton.getRegionWidth() / 2), (float) (HauntedSouls.HEIGHT / 2.8));
-        sb.draw(optionsButton, (HauntedSouls.WIDTH / 2 - optionsButton.getRegionWidth() / 2), (float) (HauntedSouls.HEIGHT / 4.0));
-        sb.draw(exitButton, (HauntedSouls.WIDTH / 2 - exitButton.getRegionWidth() / 2), (float) (HauntedSouls.HEIGHT / 7.0));
+
+        for (Map.Entry<String, ScaleElement> se : Sizes.entrySet())
+        {
+                final ScaleElement details = se.getValue();
+                sb.draw(details.SavedReference, details.Position_X, details.Position_Y, details.Scaled_Width, details.Scaled_Height);
+
+        }
+
         sb.end();
 
+    }
+
+    public static Rectangle setRectangle(HashMap<String, ScaleElement> Sizes, String key) {
+
+        Rectangle rectangle = new Rectangle (
+                                    Sizes.get(key).Position_X,
+                                    Sizes.get(key) .Position_Y,
+                                    Sizes.get(key).Scaled_Width,
+                                    Sizes.get(key).Scaled_Height
+        );
+        return rectangle;
     }
 
     @Override
