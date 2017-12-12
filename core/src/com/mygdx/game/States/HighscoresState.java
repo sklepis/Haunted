@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 
 /**
- * Created by dovydas on 10/8/2017.
+ * Created by cheapsoft on 10/8/2017.
  */
 
 public class HighscoresState extends State {
@@ -67,7 +67,7 @@ public class HighscoresState extends State {
 
         sb.begin();
         sb.draw(backButton, Sizes.get("Back").position_X, Sizes.get("Back").position_Y, Sizes.get("Back").scaled_Width, Sizes.get("Back").scaled_Height);
-        HauntedSouls.gameFont.getData().setScale(MenuState.scale_w, MenuState.scale_h);
+        HauntedSouls.gameFont.getData().setScale(HauntedSouls.SCALE_W, HauntedSouls.SCALE_H);
         HauntedSouls.gameFont.draw(sb, "Highscores", Sizes.get("Highscores").position_X, Sizes.get("Highscores").position_Y);
         sb.end();
 
@@ -103,8 +103,8 @@ public class HighscoresState extends State {
 
     private  void setHashMap ()
     {
-        Sizes.put("Back", new ScaleElement(backButtonRegion, MenuState.scale_w, MenuState.scale_h, (float) 1.2, (float) 8));
-        Sizes.put("Highscores", new ScaleElement(HauntedSouls.gameFont, MenuState.scale_w, MenuState.scale_h, calculateFontWidth("Highscores"), calculateFontHeight("Highscores"), (float) 1.1));
+        Sizes.put("Back", new ScaleElement(backButtonRegion, HauntedSouls.SCALE_W, HauntedSouls.SCALE_H, (float) 1.2, (float) 8));
+        Sizes.put("Highscores", new ScaleElement(HauntedSouls.gameFont, HauntedSouls.SCALE_W,HauntedSouls.SCALE_H, calculateFontWidth("Highscores"), calculateFontHeight("Highscores"), (float) 1.1));
 
         Sizes.get("Back").calculateCustomPosition();
         Sizes.get("Highscores").calculateFontPosition();

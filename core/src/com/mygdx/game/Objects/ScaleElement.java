@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.HauntedSouls;
 
 /**
- * Created by dovydas on 10/9/2017.
+ * Created by cheapsoft on 10/9/2017.
  */
 
 public class ScaleElement

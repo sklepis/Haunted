@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.HauntedSouls;
 
 /**
- * Created by dovydas on 10/6/2017.
+ * Created by cheapsoft on 10/6/2017.
  * This class is template for every State used in game.
  */
 

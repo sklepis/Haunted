@@ -6,7 +6,7 @@ import com.mygdx.game.States.State;
 import java.util.Stack;
 
 /**
- * Created by dovydas on 10/6/2017.
+ * Created by cheapsoft on 10/6/2017.
  * This class manages States, uses stack for proper States changing.
  */
 

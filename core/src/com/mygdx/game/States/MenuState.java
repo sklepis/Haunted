@@ -13,8 +13,9 @@ import java.util.Map;
 
 import static com.badlogic.gdx.Gdx.app;
 
+
 /**
- * Created by dovydas on 10/6/2017.
+ * Created by cheapsoft on 10/6/2017.
  */
 
 public class MenuState extends State {
@@ -31,8 +32,6 @@ public class MenuState extends State {
 
     private HashMap<String, ScaleElement> Sizes = new HashMap<String, ScaleElement>();
 
-    public static float scale_w;
-    public static float scale_h;
 
     public MenuState(com.mygdx.game.Managers.GameStateManager gsm)
     {
@@ -41,7 +40,7 @@ public class MenuState extends State {
         /* Setting everything for screen elements placing */
 
         setScreen();
-        setScaleLevel();
+       // setScaleLevel();
         setHashTable();
 
         /* Invokes calculation method, after keys with values are set to hashmap */
@@ -111,14 +110,12 @@ public class MenuState extends State {
         sb.begin();
         sb.draw(background, 0, 0, HauntedSouls.WIDTH, HauntedSouls.HEIGHT);
 
-        for (Map.Entry<String, ScaleElement> se : Sizes.entrySet())
+        for (ScaleElement details : Sizes.values())
         {
-                final ScaleElement details = se.getValue();
-                sb.draw(details.savedReference, details.position_X, details.position_Y, details.scaled_Width, details.scaled_Height);
+            sb.draw(details.savedReference, details.position_X, details.position_Y, details.scaled_Width, details.scaled_Height);
         }
 
         sb.end();
-
     }
 
     @Override
@@ -151,16 +148,18 @@ public class MenuState extends State {
 
     }
 
-    private void setScaleLevel()
-    {
-
-        scale_w = (float)HauntedSouls.WIDTH / (float) background.getRegionWidth();
-        scale_h = (float) HauntedSouls.HEIGHT / (float) background.getRegionHeight();
-
-    }
+//    private void setScaleLevel()
+//    {
+//
+//        scale_w = (float)HauntedSouls.WIDTH / (float) background.getRegionWidth();
+//        scale_h = (float) HauntedSouls.HEIGHT / (float) background.getRegionHeight();
+//
+//    }
 
     private void setHashTable()
     {
+      float scale_w = HauntedSouls.SCALE_W;
+      float scale_h = HauntedSouls.SCALE_H;
 
         Sizes.put("Header", new ScaleElement(gameHeader, scale_w, scale_h, (float) 1.3));
         Sizes.put("Play", new ScaleElement(playButton, scale_w, scale_h, (float) 2));

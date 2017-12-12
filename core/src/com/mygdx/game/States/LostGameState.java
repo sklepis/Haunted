@@ -3,7 +3,7 @@ package com.mygdx.game.States;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Created by dovydas on 10/11/2017.
+ * Created by cheapsoft on 10/11/2017.
  */
 
 public class LostGameState extends State {

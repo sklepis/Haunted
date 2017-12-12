@@ -14,6 +14,9 @@ public class HauntedSouls extends Game {
 	public static int WIDTH;
 	public static int HEIGHT;
 
+	public static float SCALE_W;
+	public static float SCALE_H;
+
 	public static final String TITLE = "Haunted Souls";
 	public static BitmapFont gameFont;
 	private GameStateManager gsm;
@@ -26,7 +29,6 @@ public class HauntedSouls extends Game {
 	{
 
 		/* Music setup */
-
 		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/intro.mp3"));
 		music.setVolume((float) 0.3);
 		music.play();
@@ -36,6 +38,11 @@ public class HauntedSouls extends Game {
 
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
+
+		/* Set scaling ratio for multiple device computability */
+
+		SCALE_W = (float) WIDTH / 1920;
+		SCALE_H = (float) HEIGHT / 1080;
 
 		/* Initializing application container and setting its default color */
 

@@ -1,14 +1,16 @@
 package com.mygdx.game.States;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Managers.GameStateManager;
 
 /**
- * Created by cheapsoft on 10/11/2017.
+ * Created by cheapsoft on 11/18/2017.
  */
 
-public class PauseState extends State {
+public class DiffState extends State {
 
-    public PauseState(com.mygdx.game.Managers.GameStateManager gsm) {
+    public DiffState(GameStateManager gsm)
+    {
         super(gsm);
     }
 
